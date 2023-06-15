@@ -1,213 +1,151 @@
 import React, { useState } from "react";
-import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import Search from "./Search";
-import { useNavigate } from "react-router-dom";
-import { UserAuth } from "../contexts/AuthContext";
+import { Link, useNavigate } from "react-router-dom";
 
-// import Search from './Search';
 const Navbar = () => {
+  const [currentUser, setCurrentUser] = useState(null);
   const [nav, setNav] = useState(false);
+  const navigate = useNavigate();
+
   const handleNav = () => {
     setNav(!nav);
   };
 
-  const { user, logout } = UserAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      console.log("You are logged out");
-    } catch (e) {
-      console.log(e.message);
-    }
-    localStorage.clear();
+  const handleLogout = () => {
+    // Perform logout logic (e.g., clear session, remove tokens, etc.)
+    setCurrentUser(null);
+    navigate("/");
   };
 
-  return localStorage.getItem("Email") ? (
-    //after login
-    <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" class="flex items-center">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            class="h-8 mr-3"
-            alt="Flowbite Logo"
-          />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            PicLab
-          </span>
-        </a>
-        <div class="flex md:order-2">
-          <button
-            type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Log Out
-          </button>
-          <button
-            data-collapse-toggle="navbar-sticky"
-            type="button"
-            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-sticky"
-            aria-expanded="false"
-          >
-            <span class="sr-only">Open main menu</span>
-            <svg
-              class="w-6 h-6"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-          id="navbar-sticky"
-        >
-          <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a
-                href="/"
-                class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                aria-current="page"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Service
-              </a>
-            </li>
-            <li>
-              <a
-                href="/aboutus"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="/cart"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Cart
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-  ) : (
-    //desktop before login
-    <nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-      <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <a href="/" class="flex items-center">
-          <img
-            src="https://flowbite.com/docs/images/logo.svg"
-            class="h-8 mr-3"
-            alt="Flowbite Logo"
-          />
-          <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
-            PicLab
-          </span>
-        </a>
-        <div class="flex md:order-2">
-          <button
-            type="button"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center mr-3 md:mr-0 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Login
-          </button>
-          {/* menu drop down responsive */}
-          <button
-            data-collapse-toggle="navbar-sticky"
-            type="button"
-            class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            aria-controls="navbar-sticky"
-            aria-expanded="false"
-          >
-            <span class="sr-only">Open main menu</span>
-            <svg
-              class="w-6 h-6"
-              aria-hidden="true"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-        </div>
-        <div
-          class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-          id="navbar-sticky"
-        >
-          <ul class="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
-              <a
-                href="/"
-                class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500"
-                aria-current="page"
-              >
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="/aboutus"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                About
-              </a>
-            </li>
-            <li>
-              <a
-                href="/cart"
-                class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
-              >
-                Cart
-              </a>
-            </li>
-            <li>
-            <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" class="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 md:w-auto dark:text-white md:dark:hover:text-blue-500 dark:focus:text-white dark:border-gray-700 dark:hover:bg-gray-700 md:dark:hover:bg-transparent">Account <svg class="w-5 h-5 ml-1" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg></button>
-            <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
-                <ul class="py-2 text-sm text-gray-700 dark:text-gray-400" aria-labelledby="dropdownLargeButton">
-                  <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                  </li>
-                  <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                  </li>
-                  <li>
-                    <a href="#" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                  </li>
-                </ul>
-                <div class="py-1">
-                  <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-400 dark:hover:text-white">Sign out</a>
-                </div>
+  return (
+      <nav className="bg-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex-shrink-0">
+              <Link to="/" className="font-bold text-xl">
+                Logo
+              </Link>
             </div>
-            </li>
-          </ul>
+            <div className="hidden md:block">
+              <div className="ml-4 flex items-center">
+                {currentUser ? (
+                    <>
+                      {/* Render links for authenticated user */}
+                      <Link
+                          to="/dashboard"
+                          className="mr-4 text-gray-800 hover:text-gray-600"
+                      >
+                        Dashboard
+                      </Link>
+                      <button
+                          onClick={handleLogout}
+                          className="text-gray-800 hover:text-gray-600"
+                      >
+                        Logout
+                      </button>
+                    </>
+                ) : (
+                    <>
+                      {/* Render links for non-authenticated user */}
+                      <Link
+                          to="/login"
+                          className="mr-4 text-gray-800 hover:text-gray-600"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                          to="/signup"
+                          className="text-gray-800 hover:text-gray-600"
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                )}
+              </div>
+            </div>
+            <div className="-mr-2 flex md:hidden">
+              <button
+                  type="button"
+                  className="text-gray-800 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"
+                  onClick={handleNav}
+              >
+                {nav ? (
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        className="h-5 w-5"
+                    >
+                      <path
+                          fillRule="event"
+                          d="M13.707 8L19 13.293V16a1 1 0 01-1 1h-1a1 1 0 01-1-1v-1.586L12.707 17H7.293L2 11.707V9a1 1 0 011-1h1a1 1 0 011 1v1.586L7.293 7H12.707L18 12.293V9a1 1 0 011-1h1a1 1 0 011 1v3a1 1 0 01-1 1h-3.586L13 8.707V8z"
+                          clipRule="event"
+                      />
+                      <path
+                          fillRule="event"
+                          d="M2 7.293L7.293 2H12.707L18 7.293V9a1 1 0 01-1 1h-1a1 1 0 01-1-1V7.586L12.707 4H7.293L2 9.293V9a1 1 0 01-1-1V7.293zM3 10v7a2 2 0 002 2h10a2 2 0 002-2v-7h2a1 1 0 011 1v7a4 4 0 01-4 4H5a4 4 0 01-4-4v-7a1 1 0 011-1h2zm7-3a1 1 0 011 1v2a1 1 0 01-2 0V8a1 1 0 011-1z"
+                          clipRule="event"
+                      />
+                    </svg>
+                ) : (
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        className="h-5 w-5"
+                    >
+                      <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 6h16M4 12h16M4 18h16"
+                      />
+                    </svg>
+                )}
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </nav>
+        {nav && (
+            <div className="md:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                {currentUser ? (
+                    <>
+                      {/* Render links for authenticated user */}
+                      <Link
+                          to="/dashboard"
+                          className="block text-gray-800 hover:bg-gray-100"
+                      >
+                        Dashboard
+                      </Link>
+                      <button
+                          onClick={handleLogout}
+                          className="block text-gray-800 hover:bg-gray-100"
+                      >
+                        Logout
+                      </button>
+                    </>
+                ) : (
+                    <>
+                      {/* Render links for non-authenticated user */}
+                      <Link
+                          to="/login"
+                          className="block text-gray-800 hover:bg-gray-100"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                          to="/signup"
+                          className="block text-gray-800 hover:bg-gray-100"
+                      >
+                        Sign Up
+                      </Link>
+                    </>
+                )}
+              </div>
+            </div>
+        )}
+      </nav>
   );
 };
 
